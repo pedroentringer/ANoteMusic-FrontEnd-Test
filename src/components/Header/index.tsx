@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import {
   Flex,
@@ -33,7 +34,11 @@ const Header = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Image src={logoImg} alt="ANote Music" width="200" height="55px" />
+          <Link href="/home">
+            <a>
+              <Image src={logoImg} alt="ANote Music" width="200" height="55px"/>
+            </a>
+          </Link>
 
           <Menu>
             <MenuButton
@@ -57,7 +62,11 @@ const Header = () => {
               <Text color="gray.600">{user?.email}</Text>
 
               <MenuDivider />
-
+              <MenuItem>
+                <Link href="/profile">
+                  <Text>Profile</Text>
+                </Link>
+              </MenuItem>
               <MenuItem onClick={logoutAuth}>Log-Out</MenuItem>
             </MenuList>
           </Menu>
