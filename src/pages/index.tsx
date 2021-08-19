@@ -49,7 +49,7 @@ const Login = () => {
             marginTop="20px"
           >
             <Heading size="sm" fontWeight="bold" color="blue.500">Log In</Heading>
-            <Text mb={4} size="xs" fontWeight="300">Please insert your account's email and password to log into the platform</Text>
+            <Text mb={4} size="xs" fontWeight="300">Please insert your accounts email and password to log into the platform</Text>
 
             <Form
               ref={formRef}
