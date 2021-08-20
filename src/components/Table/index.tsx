@@ -79,6 +79,3 @@ export default function Table<T extends Record<string, unknown>>(
     </ChakraTable>
   )
 }
-function getColumnStyle(column: HeaderGroup<T>): React.CSSProperties | undefined {
-  throw new Error('Function not implemented.')
-}
