@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { useToast, Flex, Image, Tooltip, Text, Link } from '@chakra-ui/react'
+import { useToast, Flex, Image, Tooltip, Text, Link, useMediaQuery } from '@chakra-ui/react'
 import { Form } from '@unform/web'
 import { FormHandles } from '@unform/core'
 import * as Yup from 'yup'
@@ -60,6 +60,8 @@ const Home = () => {
   const [showClose, setShowClose] = useState(false)
 
   const formRef = useRef<FormHandles>(null)
+
+  const [isLargerTo610] = useMediaQuery('(min-width: 610px)')
 
   useEffect(() => {
     fetchSongs()
@@ -179,67 +181,132 @@ const Home = () => {
         <Text fontSize="l" fontWeight="bold" mt={4} mb={2}>Songs</Text>
 
         <Card w="100%">
-          <Table
-            tableName="pendencias"
-            columns={
-              [
-                {
-                  Header: 'Title',
-                  accessor: 'title'
-                },
-                {
-                  Header: 'Album',
-                  accessor: 'album'
-                },
-                {
-                  Header: 'Play',
-                  accessor: 'play'
-                }
-              ]
-            }
-            data={songs.map((song: Song) => {
-              const fixedImageUrl = !song.imageUrl.includes('anote-public') ? null : song.imageUrl
-              return {
-                title: (
-                  <Flex alignItems="center">
-                    <Image src={fixedImageUrl || DefaultSongImage.src} w="50px" h="50px" borderRadius={4} />
-                    <Flex ml={2} direction="column">
-                      <Text fontSize={16} color="#0c7ab9" fontWeight="bold">{song.labelName}</Text>
-                      <Text fontSize={12}>{song.artists.map((artist:Artist) => artist.name).join(', ')}</Text>
-                    </Flex>
-                  </Flex>
-                ),
-                album: song.albumName,
-                play: (
-                  <Flex>
-                    {song.soundcloudUrl && (
-                      <Tooltip label="Play on SoundCloud">
-                        <Link target="_blank" href={song.soundcloudUrl}>
-                          <Image cursor="pointer" src={SoundcloudIcon.src} w="30px" h="30px" ml={2}/>
-                        </Link>
-                      </Tooltip>
-                    )}
 
-                    {song.spotifyId && (
-                      <Tooltip label="Play on Spotify">
-                        <Link target="_blank" href={`${process.env.NEXT_PUBLIC_PLAY_SPOTIFY_URL}${song.spotifyId}`}>
-                          <Image cursor="pointer" src={SpotifyIcon.src} w="30px" h="30px" ml={2}/>
-                        </Link>
-                      </Tooltip>
-                    )}
-
-                    {song.youtubeId && (
-                      <Tooltip label="Play on Youtube">
-                        <Link target="_blank" href={`${process.env.NEXT_PUBLIC_PLAY_YOUTUBE_URL}${song.youtubeId}`}>
-                          <Image cursor="pointer" src={YoutubeIcon.src} w="30px" h="30px" ml={2}/>
-                        </Link>
-                      </Tooltip>
-                    )}
-                  </Flex>
-                )
+          {isLargerTo610 && (
+            <Table
+              tableName="pendencias"
+              columns={
+                [
+                  {
+                    width: 10,
+                    Header: 'Title',
+                    accessor: 'title'
+                  },
+                  {
+                    Header: 'Album',
+                    accessor: 'album'
+                  },
+                  {
+                    Header: 'Play',
+                    accessor: 'play'
+                  }
+                ]
               }
-            })}
-          />
+              data={songs.map((song: Song) => {
+                const fixedImageUrl = !song.imageUrl.includes('anote-public') ? null : song.imageUrl
+                return {
+                  title: (
+                    <Flex alignItems="center">
+                      <Image src={fixedImageUrl || DefaultSongImage.src} w="50px" h="50px" borderRadius={4} />
+                      <Flex ml={2} direction="column">
+                        <Text fontSize={16} color="#0c7ab9" fontWeight="bold">{song.labelName}</Text>
+                        <Text fontSize={12}>{song.artists.map((artist:Artist) => artist.name).join(', ')}</Text>
+                      </Flex>
+                    </Flex>
+                  ),
+                  album: song.albumName,
+                  play: (
+                    <Flex>
+                      {song.soundcloudUrl && (
+                        <Tooltip label="Play on SoundCloud">
+                          <Link target="_blank" href={song.soundcloudUrl}>
+                            <Image cursor="pointer" src={SoundcloudIcon.src} w="30px" h="30px" ml={2}/>
+                          </Link>
+                        </Tooltip>
+                      )}
+
+                      {song.spotifyId && (
+                        <Tooltip label="Play on Spotify">
+                          <Link target="_blank" href={`${process.env.NEXT_PUBLIC_PLAY_SPOTIFY_URL}${song.spotifyId}`}>
+                            <Image cursor="pointer" src={SpotifyIcon.src} w="30px" h="30px" ml={2}/>
+                          </Link>
+                        </Tooltip>
+                      )}
+
+                      {song.youtubeId && (
+                        <Tooltip label="Play on Youtube">
+                          <Link target="_blank" href={`${process.env.NEXT_PUBLIC_PLAY_YOUTUBE_URL}${song.youtubeId}`}>
+                            <Image cursor="pointer" src={YoutubeIcon.src} w="30px" h="30px" ml={2}/>
+                          </Link>
+                        </Tooltip>
+                      )}
+                    </Flex>
+                  )
+                }
+              })}
+            />
+          )}
+
+          {!isLargerTo610 && (
+            <Table
+              tableName="pendencias"
+              columns={
+                [
+                  {
+                    width: 10,
+                    Header: 'Title',
+                    accessor: 'title'
+                  },
+                  {
+                    Header: 'Play',
+                    accessor: 'play'
+                  }
+                ]
+              }
+              data={songs.map((song: Song) => {
+                const fixedImageUrl = !song.imageUrl.includes('anote-public') ? null : song.imageUrl
+                return {
+                  title: (
+                    <Flex alignItems="center">
+                      <Image src={fixedImageUrl || DefaultSongImage.src} w="50px" h="50px" borderRadius={4} />
+                      <Flex ml={2} direction="column">
+                        <Text fontSize={16} color="#0c7ab9" fontWeight="bold">{song.labelName}</Text>
+                        <Text fontSize={12}>{song.artists.map((artist:Artist) => artist.name).join(', ')}</Text>
+                      </Flex>
+                    </Flex>
+                  ),
+                  album: song.albumName,
+                  play: (
+                    <Flex>
+                      {song.soundcloudUrl && (
+                        <Tooltip label="Play on SoundCloud">
+                          <Link target="_blank" href={song.soundcloudUrl}>
+                            <Image cursor="pointer" src={SoundcloudIcon.src} w="30px" h="30px" ml={2}/>
+                          </Link>
+                        </Tooltip>
+                      )}
+
+                      {song.spotifyId && (
+                        <Tooltip label="Play on Spotify">
+                          <Link target="_blank" href={`${process.env.NEXT_PUBLIC_PLAY_SPOTIFY_URL}${song.spotifyId}`}>
+                            <Image cursor="pointer" src={SpotifyIcon.src} w="30px" h="30px" ml={2}/>
+                          </Link>
+                        </Tooltip>
+                      )}
+
+                      {song.youtubeId && (
+                        <Tooltip label="Play on Youtube">
+                          <Link target="_blank" href={`${process.env.NEXT_PUBLIC_PLAY_YOUTUBE_URL}${song.youtubeId}`}>
+                            <Image cursor="pointer" src={YoutubeIcon.src} w="30px" h="30px" ml={2}/>
+                          </Link>
+                        </Tooltip>
+                      )}
+                    </Flex>
+                  )
+                }
+              })}
+            />
+          )}
         </Card>
       </Container>
     </>

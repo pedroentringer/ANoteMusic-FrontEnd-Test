@@ -11,6 +11,7 @@ const Container = ({ children, ...props }: ContainerProps) => {
     <Box
       as="main"
       maxWidth="1000px"
+      w="90%"
       margin="0 auto"
       {...props}
     >

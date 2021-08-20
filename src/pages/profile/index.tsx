@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useToast, Flex, Avatar, Text, Grid, Spinner } from '@chakra-ui/react'
+import { useToast, Flex, Avatar, Text, Grid, Spinner, useMediaQuery } from '@chakra-ui/react'
 
 import Container from '../../components/Container'
 import Card from '../../components/Card'
@@ -77,6 +77,10 @@ const formatMoney = (money:number, currency:string) => {
 
 const Home = () => {
   const [userDetails, setUserDetails] = useState<UserDetail | null>(null)
+  const [isLargerTo950, isLargerTo540] = useMediaQuery([
+    '(min-width: 950px)',
+    '(min-width: 540px)'
+  ])
 
   const toast = useToast()
   const { user } = useAuth()
@@ -118,7 +122,7 @@ const Home = () => {
 
         {userDetails && (
           <Card w="100%" borderRadius={10} boxShadow="xl">
-            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <Grid templateColumns={isLargerTo540 ? 'repeat(2, 1fr)' : '1fr'} gap={4}>
                 <Flex alignItems="center">
                   <Avatar
                     name={user?.fullName}
@@ -132,14 +136,14 @@ const Home = () => {
                     <Text fontSize={12}>{user?.email}</Text>
                   </Flex>
                 </Flex>
-                <Flex alignItems="center" justifyContent="flex-end">
+                <Flex alignItems="center" justifyContent={isLargerTo540 ? 'flex-end' : 'flex-start'}>
                   <Text fontSize={18} color="#0c7ab9" fontWeight="bold">{userDetails.currency}</Text>
                   <Text ml={2} fontSize={18}>{formatMoney(parseFloat(userDetails.balance), userDetails.currency)}</Text>
                 </Flex>
             </Grid>
 
             <Text mt={10} fontSize={14} fontWeight="bold" mb={2}>Financial</Text>
-            <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+            <Grid templateColumns={isLargerTo950 ? 'repeat(3, 1fr)' : '1fr'} gap={4}>
               {userDetails.balances.map(balance => (
                 <CardGradient key={`balance-${balance.currency}`}>
                   <Flex alignItems="center" justifyContent="center">

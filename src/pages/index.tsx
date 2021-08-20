@@ -45,7 +45,7 @@ const Login = () => {
 
           <Image src={logoImg} alt="ANote Music" width="200" height="55px" />
           <Card
-            width="20rem"
+            maxWidth="20rem"
             marginTop="20px"
           >
             <Heading size="sm" fontWeight="bold" color="blue.500">Log In</Heading>

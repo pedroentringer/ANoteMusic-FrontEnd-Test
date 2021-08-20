@@ -37,14 +37,19 @@ export default function Table<T extends Record<string, unknown>>(
             {...headerGroup.getHeaderGroupProps()}
             key={`table-head-tr-${tableName}-${i}`}
           >
-            {headerGroup.headers.map((column, j) => (
-              <Th
-                {...column.getHeaderProps()}
-                key={`table-body-tr-th-${tableName}-${j}`}
-              >
-                {column.render('Header')}
-              </Th>
-            ))}
+            {headerGroup.headers.map((column, j) => {
+              const headerProps = column.getHeaderProps()
+
+              return (
+                <Th
+                  {...headerProps}
+                  style= {{ ...headerProps.style }}
+                  key={`table-body-tr-th-${tableName}-${j}`}
+                >
+                  {column.render('Header')}
+                </Th>
+              )
+            })}
           </Tr>
         ))}
       </Thead>
@@ -73,4 +78,7 @@ export default function Table<T extends Record<string, unknown>>(
       </Tbody>
     </ChakraTable>
   )
+}
+function getColumnStyle(column: HeaderGroup<T>): React.CSSProperties | undefined {
+  throw new Error('Function not implemented.')
 }
